@@ -32,7 +32,7 @@ module.exports = {
   Mutation: {
     async createPost(_, { body }, context) {
       const user = checkAuth(context);
-      if (ars.body.trim() === "") {
+      if (body.trim() === "") {
         throw new Error("Post should not be empty");
       }
       const newPost = new Post({
@@ -49,7 +49,6 @@ module.exports = {
 
     async deletePost(_, { postId }, context) {
       const user = checkAuth(context);
-      console.log("user", user);
       try {
         const post = await Post.findById(postId);
         if (user.email === post.email) {

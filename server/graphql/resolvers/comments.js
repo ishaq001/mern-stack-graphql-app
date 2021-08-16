@@ -24,7 +24,6 @@ module.exports = {
           createdAt: new Date().toISOString(),
         });
         await post.save();
-        console.log("post", post);
         return post;
       } else throw new UserInputError("Post not Found");
     },
@@ -34,12 +33,9 @@ module.exports = {
 
       const post = await Post.findById(postId);
       if (post) {
-        console.log("email", email);
         const commentIndex = post.comments.findIndex(
           (comment) => comment.id === commentId
         );
-        console.log("verif email", commentIndex);
-        console.log("verif email", post.comments);
 
         if (post.comments[commentIndex].email === email) {
           post.comments.splice(commentIndex, 1);
@@ -53,27 +49,27 @@ module.exports = {
       }
     },
 
-    likePost: async (_, {postId }, context) => {
+    likePost: async (_, { postId }, context) => {
       const { email, username } = checkAuth(context);
 
       const post = await Post.findById(postId);
 
       if (post) {
-        if (post.likes.find(like => like.email === email)) {
+        if (post.likes.find((like) => like.email === email)) {
           //post liked
-          post.likes = post.likes.filter(like => like.email !== email)
+          post.likes = post.likes.filter((like) => like.email !== email);
         } else {
           post.likes.push({
             email,
             username,
-            createdAt: new Date().toISOString()
-          })
+            createdAt: new Date().toISOString(),
+          });
         }
         await post.save();
         return post;
       } else {
-        throw new UserInputError('Post not found!')
+        throw new UserInputError("Post not found!");
       }
-    }
+    },
   },
 };

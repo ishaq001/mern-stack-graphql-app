@@ -49,8 +49,13 @@ module.exports = {
 
       const user = await User.findOne({ email });
       if (!valid) {
-        throw new UserInputError("Errors", {
-          errors,
+        throw new UserInputError(" Errors", {
+          errors: {
+            username: username,
+            email: email,
+            password: password,
+            confirmPassword: confirmPassword,
+          },
         });
       }
       if (!user) {
@@ -91,7 +96,12 @@ module.exports = {
       );
       if (!valid) {
         throw new UserInputError("Errors", {
-          errors,
+          errors: {
+            username: username,
+            email: email,
+            password: password,
+            confirmPassword: confirmPassword,
+          },
         });
       }
 
