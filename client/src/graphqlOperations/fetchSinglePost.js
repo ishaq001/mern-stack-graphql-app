@@ -18,6 +18,12 @@ export const FETCH_SINGLE_POST = gql`
         createdAt
         body
         username
+        commentLikes {
+          id
+          username
+          email
+        }
+        commentLikesCount
       }
       commentCount
     }

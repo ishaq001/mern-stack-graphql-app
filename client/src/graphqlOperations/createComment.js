@@ -10,6 +10,13 @@ export const CREATE_COMMENT_MUTATION = gql`
         email
         id
         username
+        commentLikes {
+          id
+          username
+          email
+          createdAt
+        }
+        commentLikesCount
       }
       commentCount
     }

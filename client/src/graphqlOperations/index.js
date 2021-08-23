@@ -6,3 +6,4 @@ export { CREATE_POST_MUTATION } from "./createPost";
 export { FETCH_SINGLE_POST } from "./fetchSinglePost";
 export { DELETE_COMMENT_MUTATION } from "./deleteComment";
 export { CREATE_COMMENT_MUTATION } from "./createComment";
+export { LIKE_COMMENT_MUTATION } from "./likeComment";

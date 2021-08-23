@@ -1,10 +1,15 @@
 import React, { useContext, useRef, useState } from "react";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { Button, Card, Grid, Image } from "semantic-ui-react";
-import moment from "moment";
 
 import { AuthContext } from "../context/auth";
-import { CommentsButton, DeleteButton, LikeButton } from "../components";
+import {
+  CommentsButton,
+  DeleteButton,
+  LikeButton,
+  LikeCommentButton,
+  UserCard,
+} from "../components";
 import {
   CREATE_COMMENT_MUTATION,
   FETCH_SINGLE_POST,
@@ -74,11 +79,7 @@ export function SinglePost(props) {
           </Grid.Column>
           <Grid.Column width={12}>
             <Card fluid>
-              <Card.Content>
-                <Card.Header>{username}</Card.Header>
-                <Card.Meta>{moment(createdAt).fromNow()}</Card.Meta>
-                <Card.Description>{body}</Card.Description>
-              </Card.Content>
+              <UserCard username={username} body={body} createdAt={createdAt} />
               <hr />
               <Card.Content extra>
                 <LikeButton
@@ -118,15 +119,29 @@ export function SinglePost(props) {
                 </Card.Content>
               </Card>
             )}
+
             {comments.map((comment) => (
               <Card fluid>
-                <Card.Content>
-                  {user && user?.username === comment?.username && (
-                    <DeleteButton postId={id} commentId={comment?.id} />
-                  )}
-                  <Card.Header>{comment?.username}</Card.Header>
-                  <Card.Meta>{moment(comment?.createdAt).fromNow()}</Card.Meta>
-                  <Card.Description>{comment?.body}</Card.Description>
+                {user && user?.username === comment?.username && (
+                  <DeleteButton postId={id} commentId={comment?.id} />
+                )}
+                <UserCard
+                  username={comment.username}
+                  body={comment.body}
+                  createdAt={comment.createdAt}
+                 
+                />
+                <Card.Content extra>
+                  <LikeCommentButton
+                    comment={{
+                      id: comment.id,
+                      commentLikes: comment.commentLikes,
+                      commentLikesCount: comment.commentLikesCount,
+                    }}
+                    postId={id}
+                    user={user}
+                    refetch={refetch}
+                  />
                 </Card.Content>
               </Card>
             ))}
@@ -138,3 +153,28 @@ export function SinglePost(props) {
 
   return markup;
 }
+let input1 = document.getElementById('myInput1');
+  var input2 = document.getElementById('myInput2');
+
+  input1.addEventListener('change', function() {
+  
+    let today = new Date();
+    let currentYear = today.getFullYear() ;
+    let age = parseInt(document.getElementById('age').value, 10);
+    let birthYear = currentYear - age
+    let inputNewValue = input1.value
+    inputNewValue = `${birthYear}-01-01`
+    input2.value = inputNewValue;
+  });
+
+
+            document.getElementById('calculate').addEventListener('click', function(e){
+               e.preventDefault();
+               var today = new Date();
+               var currentYear = today.getFullYear() ;
+               var age = parseInt(document.getElementById('age').value, 10);
+              var birthYear = currentYear - age;
+              
+               document.getElementById('result').innerHTML =  
+ birthYear;  
+           });
