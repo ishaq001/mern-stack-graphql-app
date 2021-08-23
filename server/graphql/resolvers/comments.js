@@ -49,6 +49,40 @@ module.exports = {
       }
     },
 
+    likeComment: async (_, { postId, commentId }, context) => {
+      const { email, username } = checkAuth(context);
+      const post = await Post.findById(postId);
+
+      if (post) {
+        post?.comments.map((comment) => {
+          if (commentId === comment.id) {
+            if (comment.commentLikes?.find((like) => like.email === email)) {
+              // console.log("here inside");
+              comment.commentLikes = comment.commentLikes?.filter(
+                (like) => like.email !== email
+              );
+            } else {
+              comment.commentLikes?.push({
+                email,
+                username,
+                createdAt: new Date().toISOString(),
+              });
+              console.log("post.push", post?.comments[0]?.commentLikes);
+            }
+          } else {
+            throw new UserInputError("No Comment Found");
+          }
+        });
+
+        await post.save();
+        return post;
+      } else {
+        throw new UserInputError("Post not found");
+      }
+
+      // if(post.comments[commentIndex].email === )
+    },
+
     likePost: async (_, { postId }, context) => {
       const { email, username } = checkAuth(context);
 
@@ -66,6 +100,7 @@ module.exports = {
           });
         }
         await post.save();
+
         return post;
       } else {
         throw new UserInputError("Post not found!");
