@@ -153,28 +153,3 @@ export function SinglePost(props) {
 
   return markup;
 }
-let input1 = document.getElementById('myInput1');
-  var input2 = document.getElementById('myInput2');
-
-  input1.addEventListener('change', function() {
-  
-    let today = new Date();
-    let currentYear = today.getFullYear() ;
-    let age = parseInt(document.getElementById('age').value, 10);
-    let birthYear = currentYear - age
-    let inputNewValue = input1.value
-    inputNewValue = `${birthYear}-01-01`
-    input2.value = inputNewValue;
-  });
-
-
-            document.getElementById('calculate').addEventListener('click', function(e){
-               e.preventDefault();
-               var today = new Date();
-               var currentYear = today.getFullYear() ;
-               var age = parseInt(document.getElementById('age').value, 10);
-              var birthYear = currentYear - age;
-              
-               document.getElementById('result').innerHTML =  
- birthYear;  
-           });
